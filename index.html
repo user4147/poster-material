@@ -29,8 +29,8 @@
 
   .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px 20px 8px;}
   .topbar .brand{font-family:'League Spartan',sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:.02em; color:var(--violet-deep);}
-  .topbar .logos{display:flex; align-items:center; gap:10px;}
-  .topbar .logos img{height:26px; width:auto; display:block;}
+  .topbar .logos{display:flex; align-items:center; gap:14px; padding-left:12px; border-left:1px solid var(--line);}
+  .topbar .logos img{height:38px; width:auto; display:block;}
 
   .back-btn{
     display:none; align-items:center; gap:6px; background:var(--white); border:1px solid var(--line);
@@ -153,9 +153,9 @@
   }
 
   /* GALLERY */
-  .gallery-wrap{position:relative; margin-top:14px;}
+  .gallery-wrap{position:relative; margin-top:14px; margin-left:-12px; margin-right:-12px;}
   .gallery{
-    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:14px; padding-bottom:4px;
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:14px; padding:0 12px 4px;
     scrollbar-width:none; -ms-overflow-style:none;
   }
   .gallery::-webkit-scrollbar{display:none;}
@@ -205,6 +205,126 @@
     align-items:center; justify-content:center;
   }
   .lightbox-close:focus-visible{outline:2px solid var(--violet);}
+
+  /* ===================== INTERAKTIVER RUNDGANG ===================== */
+  .rd-eyebrow{font-size:.78rem; color:var(--ink-soft); font-weight:600; margin:14px 0 2px;}
+  .rd-title{font-size:1.35rem; font-weight:800; font-family:'League Spartan',sans-serif; color:var(--violet-deep); margin-bottom:14px;}
+
+  .rd-scn-card{
+    background:var(--white); border:1.5px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:12px;
+  }
+  .rd-scn-card.rd-active{border-color:var(--violet); box-shadow:0 4px 16px rgba(70,60,120,.1);}
+  .rd-scn-card.rd-disabled{opacity:.55;}
+  .rd-scn-top{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px;}
+  .rd-scn-icon{width:42px; height:42px; border-radius:12px; background:var(--violet-soft); display:flex; align-items:center; justify-content:center; font-size:1.15rem;}
+  .rd-badge{font-size:.64rem; font-weight:700; padding:4px 9px; border-radius:999px;}
+  .rd-badge.rd-ok{background:#E6F1EF; color:var(--teal);}
+  .rd-badge.rd-soon{background:var(--violet-soft); color:var(--ink-soft);}
+  .rd-scn-card h3{font-family:'League Spartan',sans-serif; font-size:1.02rem; font-weight:700; margin-bottom:6px; color:var(--ink);}
+  .rd-scn-card p{font-size:.83rem; color:var(--ink-soft); line-height:1.5; margin-bottom:12px;}
+  .rd-tags{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;}
+  .rd-tag{font-size:.7rem; font-weight:600; background:var(--violet-soft); color:var(--violet-deep); padding:4px 9px; border-radius:7px;}
+  .rd-tag.rd-muted{background:#F1EFF8; color:var(--ink-soft); opacity:.8;}
+  .rd-btn{
+    width:100%; background:var(--violet-deep); color:#fff; border:0; border-radius:12px; padding:13px; font-weight:700;
+    font-size:.9rem; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .rd-btn-off{
+    width:100%; background:var(--violet-soft); color:var(--ink-soft); border:0; border-radius:12px; padding:13px;
+    font-weight:700; font-size:.83rem; text-align:center;
+  }
+  .rd-section-label{font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); font-weight:700; margin:22px 0 10px;}
+  .rd-tool-row{
+    display:flex; align-items:center; gap:12px; background:var(--white); border:1px solid var(--line); border-radius:var(--radius);
+    padding:14px; margin-bottom:10px; text-align:left; width:100%;
+  }
+  .rd-tool-icon{width:38px; height:38px; border-radius:10px; background:var(--violet-soft); display:flex; align-items:center; justify-content:center; font-size:1rem; flex:0 0 auto;}
+  .rd-tool-row h4{font-size:.88rem; font-weight:700; margin-bottom:2px; font-family:'Inter',sans-serif;}
+  .rd-tool-row p{font-size:.75rem; color:var(--ink-soft); line-height:1.4; margin:0;}
+  .rd-tool-arrow{margin-left:auto; color:var(--violet); flex:0 0 auto;}
+  .rd-alt-link{display:block; text-align:center; font-size:.78rem; color:var(--ink-soft); margin:20px 0 4px; text-decoration:underline; text-underline-offset:2px;}
+
+  .rd-stepper{display:flex; align-items:center; gap:5px; margin:16px 0 4px; overflow-x:auto;}
+  .rd-step{display:flex; align-items:center; gap:5px; flex:0 0 auto;}
+  .rd-step-num{width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.64rem; font-weight:700; background:var(--violet-soft); color:var(--ink-soft); flex:0 0 auto;}
+  .rd-step.rd-done .rd-step-num{background:#E6F1EF; color:var(--teal);}
+  .rd-step.rd-cur .rd-step-num{background:var(--violet-deep); color:#fff;}
+  .rd-step-label{font-size:.7rem; font-weight:600; color:var(--ink-soft); white-space:nowrap;}
+  .rd-step.rd-cur .rd-step-label, .rd-step.rd-done .rd-step-label{color:var(--ink);}
+  .rd-step-line{width:12px; height:1.5px; background:var(--line); flex:0 0 auto;}
+
+  .rd-field{margin-bottom:15px;}
+  .rd-field label{display:block; font-size:.8rem; font-weight:700; margin-bottom:5px;}
+  .rd-field .rd-hint{font-size:.7rem; color:var(--ink-soft); font-weight:500;}
+  .rd-val{background:var(--white); border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:.88rem; color:var(--ink);}
+  .rd-val.rd-ph{color:var(--ink-soft); white-space:pre-line;}
+  .rd-sub{font-size:1rem; font-weight:700; margin:20px 0 3px; font-family:'League Spartan',sans-serif;}
+  .rd-sub-note{font-size:.78rem; color:var(--ink-soft); margin-bottom:12px; line-height:1.4;}
+  .rd-divider{border:0; border-top:1px solid var(--line); margin:18px 0;}
+  .rd-group-label{font-size:.84rem; font-weight:700; margin-bottom:6px; display:block;}
+
+  .rd-slider-val{float:right; font-size:.76rem; font-weight:700; color:var(--violet-deep);}
+  .rd-slider-track{position:relative; height:6px; background:var(--violet-soft); border-radius:4px; margin:12px 0 6px; clear:both;}
+  .rd-slider-fill{position:absolute; top:0; left:0; height:100%; background:var(--violet); border-radius:4px;}
+  .rd-slider-dot{position:absolute; top:50%; width:15px; height:15px; border-radius:50%; background:var(--violet-deep); border:3px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,.25); transform:translate(-50%,-50%);}
+  .rd-slider-scale{display:flex; justify-content:space-between; font-size:.7rem; color:var(--ink-soft);}
+
+  .rd-radio{display:flex; align-items:flex-start; gap:10px; background:var(--white); border:1.5px solid var(--line); border-radius:12px; padding:12px 13px; margin-bottom:8px;}
+  .rd-radio.rd-sel{border-color:var(--violet); background:var(--violet-soft);}
+  .rd-radio-dot{width:16px; height:16px; border-radius:50%; border:2px solid var(--line); flex:0 0 auto; margin-top:1px; position:relative;}
+  .rd-radio.rd-sel .rd-radio-dot{border-color:var(--violet-deep);}
+  .rd-radio.rd-sel .rd-radio-dot::after{content:''; position:absolute; inset:3px; border-radius:50%; background:var(--violet-deep);}
+  .rd-radio strong{display:block; font-size:.85rem; font-weight:700; margin-bottom:2px;}
+  .rd-radio span{font-size:.75rem; color:var(--ink-soft); line-height:1.4;}
+
+  .rd-footer-nav{display:flex; gap:10px; margin-top:22px;}
+  .rd-btn-back{flex:0 0 auto; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:13px 15px; font-weight:700; font-size:.82rem; color:var(--ink-soft); display:flex; align-items:center; gap:5px;}
+  .rd-btn-back svg{width:15px; height:15px;}
+  .rd-footer-nav .rd-btn{flex:1;}
+
+  .rd-meta-row{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:12px 0 2px;}
+  .rd-live{display:flex; align-items:center; gap:5px; background:#FDECEC; color:#C0392B; font-size:.66rem; font-weight:700; padding:4px 8px; border-radius:999px;}
+  .rd-live i{width:6px; height:6px; border-radius:50%; background:#C0392B; display:inline-block;}
+  .rd-timer{margin-left:auto; font-family:'League Spartan',sans-serif; font-weight:700; font-size:.92rem; color:var(--violet-deep);}
+
+  .rd-video{position:relative; margin-top:14px; border-radius:var(--radius); overflow:hidden; background:#111; aspect-ratio:4/3; box-shadow:0 6px 20px rgba(70,60,120,.15);}
+  .rd-video img{width:100%; height:100%; object-fit:cover; display:block;}
+  .rd-video-tag{position:absolute; top:9px; right:9px; background:rgba(20,17,35,.6); color:#fff; font-size:.66rem; font-weight:600; padding:4px 9px; border-radius:999px;}
+  .rd-video-caption{font-size:.75rem; color:var(--ink-soft); margin-top:8px; line-height:1.4;}
+
+  .rd-panel{background:var(--white); border:1px solid var(--line); border-radius:var(--radius); margin-top:14px; padding:14px 16px;}
+  .rd-panel h4{font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); font-weight:700; margin-bottom:10px;}
+  .rd-panel h4 .rd-h4-right{float:right; text-transform:none; letter-spacing:0; font-weight:600; color:var(--ink-soft);}
+
+  .rd-minimap{position:relative; height:140px; background:var(--violet-soft); border-radius:10px; overflow:hidden;}
+  .rd-minimap .rd-stu{position:absolute; font-size:.62rem; font-weight:700; background:#fff; border:1px solid var(--line); border-radius:7px; padding:3px 6px; color:var(--ink-soft); box-shadow:0 1px 3px rgba(0,0,0,.08);}
+  .rd-minimap .rd-me{position:absolute; width:10px; height:10px; border-radius:50%; background:var(--violet-deep); border:2px solid #fff;}
+
+  .rd-tline{padding:8px 0; border-bottom:1px solid var(--line); font-size:.8rem;}
+  .rd-tline:last-child{border-bottom:0;}
+  .rd-twho{font-weight:700; color:var(--violet-deep); font-size:.72rem;}
+  .rd-twho.rd-student{color:var(--teal);}
+  .rd-ttime{font-weight:500; color:var(--ink-soft); font-size:.66rem; margin-left:6px; opacity:.8;}
+  .rd-ttext{color:var(--ink); line-height:1.45; margin-top:2px;}
+
+  .rd-bar{display:flex; align-items:center; gap:8px; margin-bottom:9px; font-size:.74rem;}
+  .rd-bar-name{flex:0 0 46px; color:var(--ink-soft); font-weight:600;}
+  .rd-bar-track{flex:1; background:var(--violet-soft); border-radius:6px; height:8px; overflow:hidden;}
+  .rd-bar-fill{height:100%; background:var(--violet); border-radius:6px;}
+  .rd-bar-val{flex:0 0 40px; text-align:right; font-weight:700; color:var(--ink-soft); font-size:.7rem;}
+
+  .rd-heat{height:82px; background:#1E1B2E; border-radius:10px; position:relative; overflow:hidden;}
+  .rd-heat .rd-spot{position:absolute; border-radius:50%; filter:blur(6px);}
+
+  .rd-thumbs{display:flex; gap:8px; margin-top:14px; overflow-x:auto; padding-bottom:2px;}
+  .rd-thumb{flex:0 0 auto; width:66px; height:44px; border-radius:8px; overflow:hidden; border:2px solid transparent; position:relative;}
+  .rd-thumb.rd-thumb-active{border-color:var(--violet-deep);}
+  .rd-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .rd-thumb-label{position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.55); color:#fff; font-size:.52rem; text-align:center; padding:1px 0;}
+
+  .rd-end{display:flex; gap:10px; margin-top:18px;}
+  .rd-end-btn{flex:1; background:var(--white); border:1px solid var(--line); border-radius:12px; padding:12px; font-weight:700; font-size:.8rem; color:var(--ink-soft); text-align:center;}
+  .rd-end-btn.rd-danger{background:#FDECEC; color:#C0392B; border:0;}
 </style>
 </head>
 <body>
@@ -238,11 +358,11 @@
       </span>
     </button>
 
-    <button class="choice-card" onclick="showScreen('mockup')" aria-label="Screenshots der Weboberfläche ansehen">
-      <span class="choice-icon alt" aria-hidden="true">🖥️</span>
+    <button class="choice-card" onclick="showScreen('rd-start')" aria-label="Interaktiven Rundgang durch die Weboberfläche starten">
+      <span class="choice-icon alt" aria-hidden="true">👆</span>
       <span class="choice-text">
-        <h3>Weboberfläche</h3>
-        <p>Screenshots der Steuerungs- und Analyseplattform zum Durchblättern.</p>
+        <h3>Interaktiver Rundgang</h3>
+        <p>Durch die Weboberfläche klicken, als würdest du sie live bedienen.</p>
       </span>
       <span class="choice-arrow" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -283,9 +403,9 @@
     <p class="video-caption"><strong>Das Video zeigt</strong> eine Trainee-Perspektive im VR-Klassenzimmer: Interaktion mit KI-gesteuerten Schüler:innen-Avataren, gesteuert per Blick und Push-to-Talk.</p>
   </section>
 
-  <!-- ===================== MOCKUP ===================== -->
+  <!-- ===================== MOCKUP (echte Screenshots, für alle die es genau wissen wollen) ===================== -->
   <section id="mockup" class="screen">
-    <button class="back-btn" onclick="showScreen('menu')">
+    <button class="back-btn" onclick="showScreen('rd-start')">
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Zurück
     </button>
@@ -443,6 +563,339 @@
     </div>
   </section>
 
+  <!-- ===================== RUNDGANG: START ===================== -->
+  <section id="rd-start" class="screen">
+    <button class="back-btn" onclick="showScreen('menu')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zurück
+    </button>
+
+    <div class="rd-eyebrow">Universität Siegen</div>
+    <div class="rd-title">Szenario wählen</div>
+
+    <div class="rd-scn-card rd-active">
+      <div class="rd-scn-top">
+        <div class="rd-scn-icon">🏠</div>
+        <span class="rd-badge rd-ok">● AKTIV</span>
+      </div>
+      <h3>Standard Classroom</h3>
+      <p>Vollständige VR-Klassenzimmer-Simulation mit konfigurierbaren Schülerverhalten, Wetterbedingungen und Echtzeit-Unterrichtsfeedback.</p>
+      <div class="rd-tags">
+        <span class="rd-tag">Schüler</span><span class="rd-tag">Verhaltenssteuerung</span><span class="rd-tag">Eye Tracking</span><span class="rd-tag">Heatmaps</span>
+      </div>
+      <button class="rd-btn" onclick="showScreen('rd-cfg1')">Session starten →</button>
+    </div>
+
+    <div class="rd-scn-card rd-disabled">
+      <div class="rd-scn-top">
+        <div class="rd-scn-icon">↔️</div>
+        <span class="rd-badge rd-soon">DEMNÄCHST</span>
+      </div>
+      <h3>Debugging-Gespräch</h3>
+      <p>Einzelgespräch zwischen Lehrkraft und Schüler:in: gemeinsames Suchen und Beheben von Fehlern im Code.</p>
+      <div class="rd-tags">
+        <span class="rd-tag rd-muted">1-zu-1</span><span class="rd-tag rd-muted">Code-Review</span><span class="rd-tag rd-muted">Debugging</span>
+      </div>
+      <div class="rd-btn-off">Demnächst</div>
+    </div>
+
+    <div class="rd-section-label">Werkzeuge</div>
+    <button class="rd-tool-row" onclick="showScreen('rd-sync'); rdSyncBack='rd-start';">
+      <div class="rd-tool-icon">🔄</div>
+      <div>
+        <h4>Video &amp; Transkript Sync</h4>
+        <p>Aufnahme mit exportiertem Transkript synchronisieren und Zeilen im Video ansteuern.</p>
+      </div>
+      <span class="rd-tool-arrow">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+
+    <a class="rd-alt-link" onclick="showScreen('mockup')">Echte Screenshots ansehen →</a>
+  </section>
+
+  <!-- ===================== RUNDGANG: CONFIG 1 – ALLGEMEIN ===================== -->
+  <section id="rd-cfg1" class="screen">
+    <button class="back-btn" onclick="showScreen('rd-start')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Szenarien
+    </button>
+    <div class="rd-stepper">
+      <div class="rd-step rd-cur"><span class="rd-step-num">1</span><span class="rd-step-label">Allgemein</span></div>
+      <span class="rd-step-line"></span>
+      <div class="rd-step"><span class="rd-step-num">2</span><span class="rd-step-label">Klassenzimmer</span></div>
+      <span class="rd-step-line"></span>
+      <div class="rd-step"><span class="rd-step-num">3</span><span class="rd-step-label">Unterrichtskontext</span></div>
+    </div>
+
+    <div class="rd-sub">Allgemein</div>
+    <div class="rd-sub-note">Die wichtigsten Eckdaten für diese Session. Details im nächsten Schritt.</div>
+
+    <div class="rd-field"><label>Anrede / Name <span class="rd-hint">z.B. Frau Schmidt</span></label><div class="rd-val">Herr Mustermann</div></div>
+    <div class="rd-field"><label>Fach <span class="rd-hint">z.B. Informatik, Mathematik</span></label><div class="rd-val">Informatik</div></div>
+    <div class="rd-field"><label>Thema / Lektion</label><div class="rd-val">Variablen — Übung und Vertiefung</div></div>
+    <div class="rd-field"><label>Klassenstufe</label><div class="rd-val">7</div></div>
+    <div class="rd-field"><label>Dauer (in min.) <span class="rd-hint">Gong ertönt automatisch am Ende</span></label><div class="rd-val">45</div></div>
+
+    <div class="rd-footer-nav">
+      <button class="rd-btn-back" onclick="showScreen('rd-start')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Szenarien
+      </button>
+      <button class="rd-btn" onclick="showScreen('rd-cfg2')">Klassenzimmer →</button>
+    </div>
+  </section>
+
+  <!-- ===================== RUNDGANG: CONFIG 2 – KLASSENZIMMER ===================== -->
+  <section id="rd-cfg2" class="screen">
+    <button class="back-btn" onclick="showScreen('rd-cfg1')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Allgemein
+    </button>
+    <div class="rd-stepper">
+      <div class="rd-step rd-done"><span class="rd-step-num">✓</span><span class="rd-step-label">Allgemein</span></div>
+      <span class="rd-step-line"></span>
+      <div class="rd-step rd-cur"><span class="rd-step-num">2</span><span class="rd-step-label">Klassenzimmer</span></div>
+      <span class="rd-step-line"></span>
+      <div class="rd-step"><span class="rd-step-num">3</span><span class="rd-step-label">Unterrichtskontext</span></div>
+    </div>
+
+    <div class="rd-sub">Klassenzimmer</div>
+    <div class="rd-sub-note">Umgebung, Schülerverhalten und optionale Präsentation konfigurieren.</div>
+
+    <div class="rd-field"><label>Raum</label><div class="rd-val">Frontal Lecture ▾</div></div>
+    <hr class="rd-divider">
+
+    <div class="rd-field">
+      <label>Anzahl Schüler <span class="rd-slider-val">1 Schüler</span></label>
+      <div class="rd-sub-note" style="margin-bottom:0;">Wie viele virtuelle Schüler im Klassenzimmer erscheinen.</div>
+      <div class="rd-slider-track"><div class="rd-slider-fill" style="width:2%"></div><div class="rd-slider-dot" style="left:2%"></div></div>
+      <div class="rd-slider-scale"><span>1</span><span>30</span></div>
+    </div>
+
+    <div class="rd-field"><label>Bestimmte Schüler <span class="rd-hint">max. 30 auswählbar</span></label><div class="rd-val">1 ausgewählt ▾</div></div>
+
+    <div class="rd-field">
+      <label>Unruhe-Level <span class="rd-slider-val">3 — Chaotisch</span></label>
+      <div class="rd-sub-note" style="margin-bottom:0;">Bestimmt wie oft Schüler von sich aus störendes Verhalten zeigen.</div>
+      <div class="rd-slider-track"><div class="rd-slider-fill" style="width:100%"></div><div class="rd-slider-dot" style="left:100%"></div></div>
+      <div class="rd-slider-scale"><span>0</span><span>3</span></div>
+    </div>
+
+    <hr class="rd-divider">
+    <span class="rd-group-label">Startsituation</span>
+    <div class="rd-radio"><div class="rd-radio-dot"></div><div><strong>Einzelarbeit</strong><span>Schüler arbeiten selbstständig an ihren Plätzen.</span></div></div>
+    <div class="rd-radio rd-sel"><div class="rd-radio-dot"></div><div><strong>Aufmerksamkeit vorne</strong><span>Schüler schauen zur Lehrkraft / zur Tafel.</span></div></div>
+
+    <hr class="rd-divider">
+    <span class="rd-group-label">Steuerung</span>
+    <div class="rd-radio"><div class="rd-radio-dot"></div><div><strong>VR-Headset</strong><span>Steuerung über das angeschlossene VR-Headset.</span></div></div>
+    <div class="rd-radio rd-sel"><div class="rd-radio-dot"></div><div><strong>Maus &amp; Tastatur</strong><span>Desktop-Steuerung, auch wenn ein Headset angeschlossen ist.</span></div></div>
+
+    <hr class="rd-divider">
+    <div class="rd-sub" style="font-size:.92rem;">Atmosphäre</div>
+    <div class="rd-field" style="margin-top:10px;">
+      <label>Lärmpegel <span class="rd-slider-val">Leise</span></label>
+      <div class="rd-slider-track"><div class="rd-slider-fill" style="width:12%"></div><div class="rd-slider-dot" style="left:12%"></div></div>
+      <div class="rd-slider-scale"><span>0</span><span>4</span></div>
+    </div>
+    <div class="rd-field"><label>Wetter</label><div class="rd-val">Sonnig ▾</div></div>
+
+    <div class="rd-footer-nav">
+      <button class="rd-btn-back" onclick="showScreen('rd-cfg1')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Allgemein
+      </button>
+      <button class="rd-btn" onclick="showScreen('rd-cfg3')">Unterrichtskontext →</button>
+    </div>
+  </section>
+
+  <!-- ===================== RUNDGANG: CONFIG 3 – UNTERRICHTSKONTEXT ===================== -->
+  <section id="rd-cfg3" class="screen">
+    <button class="back-btn" onclick="showScreen('rd-cfg2')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Klassenzimmer
+    </button>
+    <div class="rd-stepper">
+      <div class="rd-step rd-done"><span class="rd-step-num">✓</span><span class="rd-step-label">Allgemein</span></div>
+      <span class="rd-step-line"></span>
+      <div class="rd-step rd-done"><span class="rd-step-num">✓</span><span class="rd-step-label">Klassenzimmer</span></div>
+      <span class="rd-step-line"></span>
+      <div class="rd-step rd-cur"><span class="rd-step-num">3</span><span class="rd-step-label">Unterrichtskontext</span></div>
+    </div>
+
+    <div class="rd-sub">Unterrichtskontext</div>
+    <div class="rd-sub-note">Tiefergehende Informationen zur Stunde.</div>
+
+    <span class="rd-group-label">Lehrkraft</span>
+    <div class="rd-field"><label>Hinweise zur Rolle</label><div class="rd-val">neue Lerngruppe</div></div>
+
+    <hr class="rd-divider">
+    <span class="rd-group-label">Stunde</span>
+    <div class="rd-field"><label>Aktivitätsart / Sozialform</label><div class="rd-val">Plenum + Einzelarbeit</div></div>
+    <div class="rd-field"><label>Einordnung in die Reihe</label><div class="rd-val">Wiederholungs- und Übungsstunde</div></div>
+
+    <hr class="rd-divider">
+    <div class="rd-sub" style="font-size:.92rem;">Lernziele &amp; Ablauf</div>
+    <div class="rd-field" style="margin-top:10px;"><label>Lernziele <span class="rd-hint">Ein Ziel pro Zeile</span></label><div class="rd-val rd-ph">z.B. Algorithmus beschreiben
+Schleifen erkennen</div></div>
+    <div class="rd-field"><label>Ablauf der Stunde</label><div class="rd-val rd-ph">z.B. Einstieg (5 min)
+Erarbeitung (20 min)
+Sicherung (10 min)</div></div>
+    <div class="rd-field"><label>Typische Fehlvorstellungen</label><div class="rd-val rd-ph">z.B. Algorithmus = Computerprogramm</div></div>
+
+    <hr class="rd-divider">
+    <div class="rd-sub" style="font-size:.92rem;">Klasse</div>
+    <div class="rd-field" style="margin-top:10px;"><label>Schulform / Schwerpunkt</label><div class="rd-val rd-ph">z.B. Gymnasium</div></div>
+    <div class="rd-field"><label>Vorwissen</label><div class="rd-val rd-ph">Kurzbeschreibung</div></div>
+    <div class="rd-field"><label>Lernausgangslage</label><div class="rd-val rd-ph">Kurzbeschreibung</div></div>
+    <div class="rd-field"><label>Soziale Dynamik</label><div class="rd-val rd-ph">Kurzbeschreibung</div></div>
+    <div class="rd-field"><label>Motivation</label><div class="rd-val rd-ph">Kurzbeschreibung</div></div>
+
+    <hr class="rd-divider">
+    <div class="rd-sub" style="font-size:.92rem;">Material &amp; Hinweise</div>
+    <div class="rd-field" style="margin-top:10px;"><label>Aufgabenstellung</label><div class="rd-val rd-ph">z.B. Berechnet mit dem Satz des Pythagoras die fehlende Seite im Dreieck auf Arbeitsblatt 2.</div></div>
+    <div class="rd-field"><label>Schlüsselbegriffe</label><div class="rd-val rd-ph">z.B. Algorithmus, Schleife, If-Abfrage</div></div>
+    <div class="rd-field"><label>Materialien</label><div class="rd-val rd-ph">z.B. Arbeitsblatt
+Video
+Laptop</div></div>
+    <div class="rd-field"><label>Weitere Hinweise</label><div class="rd-val rd-ph">Optional</div></div>
+
+    <div class="rd-footer-nav">
+      <button class="rd-btn-back" onclick="showScreen('rd-cfg2')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Klassenzimmer
+      </button>
+      <button class="rd-btn" onclick="showScreen('rd-live')">Mit Unity verbinden →</button>
+    </div>
+  </section>
+
+  <!-- ===================== RUNDGANG: LIVE SESSION ===================== -->
+  <section id="rd-live" class="screen">
+    <button class="back-btn" onclick="showScreen('rd-cfg3')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Konfiguration
+    </button>
+    <h2 style="font-size:1.2rem; margin-top:14px;">Live-Session</h2>
+    <div class="rd-meta-row">
+      <span class="rd-live"><i></i>LIVE</span>
+      <span style="font-size:.82rem; font-weight:700;">Frau Schmidt</span>
+      <span class="rd-timer">07:30</span>
+    </div>
+    <div class="rd-tags"><span class="rd-tag">Informatik</span><span class="rd-tag">Variablen</span></div>
+
+    <div class="rd-video">
+      <img src="live-video.jpg" alt="Live-Ansicht des VR-Klassenzimmers aus Lehrkraft-Perspektive">
+      <span class="rd-video-tag">Teachers View</span>
+    </div>
+    <p class="rd-video-caption">Live-Perspektive der Lehrkraft im VR-Klassenzimmer, inkl. Handtracking.</p>
+
+    <div class="rd-panel">
+      <h4>Klassenraum</h4>
+      <div class="rd-minimap">
+        <span class="rd-stu" style="top:12px; left:58%;">George</span>
+        <span class="rd-stu" style="top:36px; left:36%;">Ellias</span>
+        <span class="rd-stu" style="top:34px; left:58%;">Finn</span>
+        <span class="rd-stu" style="top:64px; left:20%;">Aliya</span>
+        <span class="rd-stu" style="top:60px; left:42%;">Harley</span>
+        <span class="rd-stu" style="top:60px; left:58%;">Bob</span>
+        <span class="rd-stu" style="top:84px; left:42%;">Elli</span>
+        <span class="rd-stu" style="top:84px; left:58%;">Moritz</span>
+        <span class="rd-stu" style="top:106px; left:50%;">Timi</span>
+        <span class="rd-stu" style="top:118px; left:20%;">Franziska</span>
+        <span class="rd-me" style="top:40px; left:6%;"></span>
+      </div>
+    </div>
+
+    <div class="rd-panel">
+      <h4>Gesprächsprotokoll</h4>
+      <div class="rd-tline"><span class="rd-twho">Frau Schmidt</span><span class="rd-ttime">0:35</span><div class="rd-ttext">Stell doch mal bitte dein Ergebnis der Teilaufgabe a vor.</div></div>
+      <div class="rd-tline"><span class="rd-twho rd-student">Ellias</span><span class="rd-ttime">0:46</span><div class="rd-ttext">Also, eine Variable ist wie ein Behälter für einen Wert, den man später ändern kann...</div></div>
+      <div class="rd-tline"><span class="rd-twho">Frau Schmidt</span><span class="rd-ttime">1:04</span><div class="rd-ttext">Sieht das auch so aus oder hast du ein anderes Ergebnis?</div></div>
+      <div class="rd-tline"><span class="rd-twho rd-student">Aliya</span><span class="rd-ttime">1:11</span><div class="rd-ttext">Ähm, also ich hab's ein bisschen anders aufgeschrieben, glaub ich. Darf ich's noch mal kurz erklären?</div></div>
+    </div>
+
+    <div class="rd-end">
+      <div class="rd-end-btn">⚙ Einstellungen</div>
+      <button class="rd-end-btn rd-danger" onclick="showScreen('rd-review')">Session beenden</button>
+    </div>
+  </section>
+
+  <!-- ===================== RUNDGANG: AUSWERTUNG ===================== -->
+  <section id="rd-review" class="screen">
+    <button class="back-btn" onclick="showScreen('rd-start')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Menü
+    </button>
+    <h2 style="font-size:1.2rem; margin-top:14px;">Session Review</h2>
+    <p style="font-size:.78rem; color:var(--ink-soft); margin-top:2px;">21.08.2026 · 4m 09s</p>
+
+    <div class="rd-video">
+      <img src="auswertung-video.jpg" alt="Aufgezeichnete Session zur Nachbetrachtung, Kameraperspektive Right Back">
+      <span class="rd-video-tag">▶ Right Back</span>
+    </div>
+    <p class="rd-video-caption">Wähle eine Kameraperspektive und schaue die Aufzeichnung an.</p>
+
+    <div class="rd-panel">
+      <h4>Bewegungsanalyse</h4>
+      <div class="rd-heat">
+        <div class="rd-spot" style="width:66px; height:56px; left:24px; top:12px; background:radial-gradient(circle, rgba(255,90,60,.85), transparent 70%);"></div>
+        <div class="rd-spot" style="width:38px; height:32px; left:34px; top:48px; background:radial-gradient(circle, rgba(255,150,90,.6), transparent 70%);"></div>
+      </div>
+    </div>
+
+    <div class="rd-panel">
+      <h4>Eye-Tracking <span class="rd-h4-right">Gesamt: 8m 00s</span></h4>
+      <div class="rd-bar"><span class="rd-bar-name">#1 09L</span><div class="rd-bar-track"><div class="rd-bar-fill" style="width:100%"></div></div><span class="rd-bar-val">2m 33s</span></div>
+      <div class="rd-bar"><span class="rd-bar-name">#2 04R</span><div class="rd-bar-track"><div class="rd-bar-fill" style="width:86%"></div></div><span class="rd-bar-val">2m 15s</span></div>
+      <div class="rd-bar"><span class="rd-bar-name">#3 02L</span><div class="rd-bar-track"><div class="rd-bar-fill" style="width:76%"></div></div><span class="rd-bar-val">2m 00s</span></div>
+    </div>
+
+    <div class="rd-panel">
+      <h4>Gesprächsprotokoll</h4>
+      <div class="rd-tline"><span class="rd-twho">Frau Schmidt</span><span class="rd-ttime">0:18</span><div class="rd-ttext">Wie weit bist du gerade mit deiner Aufgabe?</div></div>
+      <div class="rd-tline"><span class="rd-twho rd-student">Ellias</span><span class="rd-ttime">0:24</span><div class="rd-ttext">Ich hab die erste Teilaufgabe fertig, aber bei b bin ich gerade dabei, den Code Zeile für Zeile durchzugehen.</div></div>
+    </div>
+
+    <div class="rd-end">
+      <button class="rd-end-btn" onclick="showScreen('rd-sync'); rdSyncBack='rd-review';">↗ Im Sync-Tool öffnen</button>
+      <div class="rd-end-btn">⬇ Herunterladen</div>
+    </div>
+  </section>
+
+  <!-- ===================== RUNDGANG: SYNC-TOOL ===================== -->
+  <section id="rd-sync" class="screen">
+    <button class="back-btn" id="rd-sync-back" onclick="showScreen(rdSyncBack)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zurück
+    </button>
+    <h2 style="font-size:1.2rem; margin-top:14px;">Video &amp; Transkript Sync</h2>
+
+    <div class="rd-video">
+      <img src="sync-video.jpg" alt="Synchronisierte Videoaufzeichnung im Sync-Tool">
+    </div>
+
+    <div class="rd-thumbs">
+      <div class="rd-thumb rd-thumb-active"><img src="sync-video.jpg" alt=""><span class="rd-thumb-label">Teachers View</span></div>
+      <div class="rd-thumb"><img src="live-video.jpg" alt=""><span class="rd-thumb-label">Right Back</span></div>
+      <div class="rd-thumb"><img src="auswertung-video.jpg" alt=""><span class="rd-thumb-label">Right Front</span></div>
+      <div class="rd-thumb"><img src="live-video.jpg" alt=""><span class="rd-thumb-label">Left Front</span></div>
+      <div class="rd-thumb"><img src="auswertung-video.jpg" alt=""><span class="rd-thumb-label">Left Back</span></div>
+    </div>
+
+    <div class="rd-panel">
+      <h4>Transkript <span class="rd-h4-right">↓ Auto-Scroll</span></h4>
+      <div class="rd-tline"><span class="rd-twho">Frau Schmidt</span><span class="rd-ttime">04:52</span><div class="rd-ttext">Bitte gib uns einmal die Aufgabenstellung von c in deinen eigenen Worten wieder und präsentiere dann dein Ergebnis.</div></div>
+      <div class="rd-tline"><span class="rd-twho rd-student">Timi</span><span class="rd-ttime">05:08</span><div class="rd-ttext">Also, bei c geht's darum, dass ein Mitschüler meint, „punkte = punkte + 5" wäre mathematisch falsch...</div></div>
+      <div class="rd-tline"><span class="rd-twho">Frau Schmidt</span><span class="rd-ttime">05:38</span><div class="rd-ttext">Okay, und was denkst du? Denkst du auch, dass das keine richtige Antwort ist?</div></div>
+    </div>
+
+    <div class="rd-end">
+      <div class="rd-end-btn">📥 Importieren</div>
+      <div class="rd-end-btn">📤 Exportieren</div>
+    </div>
+  </section>
+
 </div>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
@@ -451,6 +904,7 @@
 </div>
 
 <script>
+  let rdSyncBack = 'rd-start';
   function showScreen(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
