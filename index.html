@@ -46,6 +46,9 @@
   #menu .hero{padding:18px 4px 26px;}
   #menu .hero h1{font-size:1.7rem; font-weight:800; color:var(--violet-deep); line-height:1.15;}
   #menu .hero p{margin:10px 0 0; color:var(--ink-soft); font-size:.95rem; line-height:1.5;}
+  #menu .hero p.hero-lede{margin-top:8px; font-size:.92rem; color:var(--ink); line-height:1.5;}
+  #menu .hero p + p.hero-lede{margin-top:8px;}
+  #menu .hero p.hero-lede + p{margin-top:16px; font-size:.78rem; text-transform:uppercase; letter-spacing:.04em; color:var(--violet-deep); font-weight:700;}
 
   .choice-card{
     display:flex; align-items:center; gap:16px; width:100%; text-align:left;
@@ -64,7 +67,14 @@
   .choice-text p{margin:4px 0 0; font-size:.85rem; color:var(--ink-soft); line-height:1.4;}
   .choice-arrow{margin-left:auto; color:var(--violet); flex:0 0 auto;}
 
-  .menu-footer{margin-top:8px; padding:14px 4px 0; font-size:.78rem; color:var(--ink-soft); text-align:center;}
+  .menu-links{display:flex; justify-content:center; gap:10px; margin-top:6px; flex-wrap:wrap;}
+  .menu-link{
+    display:inline-flex; align-items:center; gap:6px; font-size:.78rem; font-weight:600; color:var(--violet-deep);
+    background:var(--violet-soft); border-radius:999px; padding:7px 13px; text-decoration:none;
+  }
+  .menu-link:focus-visible{outline:2px solid var(--violet); outline-offset:2px;}
+
+  .menu-footer{margin-top:14px; padding:14px 4px 0; font-size:.78rem; color:var(--ink-soft); text-align:center;}
 
   /* VIDEO SCREEN */
   .video-wrap{
@@ -154,9 +164,15 @@
     width:100%; aspect-ratio:16/10; border-radius:var(--radius); background:var(--white);
     border:1.5px dashed var(--line); position:relative; overflow:hidden; color:var(--ink-soft);
   }
-  .shot img{width:100%; height:100%; object-fit:cover; display:block;}
+  .shot img{width:100%; height:100%; object-fit:contain; display:block; background:var(--white);}
   .shot .shot-fallback{
     display:none; position:absolute; inset:0; align-items:center; justify-content:center;
+    flex-direction:column; gap:8px;
+  }
+  .shot{cursor:zoom-in;}
+  .zoom-hint{
+    position:absolute; bottom:8px; right:8px; background:rgba(30,27,46,.68); color:#fff; font-size:.68rem;
+    padding:5px 10px; border-radius:999px; display:flex; align-items:center; gap:4px; pointer-events:none;
   }
   .shot .placeholder-icon{font-size:1.8rem;}
   .shot .placeholder-text{font-size:.78rem; text-align:center; padding:0 20px; line-height:1.4;}
@@ -172,6 +188,23 @@
   .dots{display:flex; gap:5px; flex-wrap:wrap; justify-content:center; max-width:180px;}
   .dot{width:5px; height:5px; border-radius:50%; background:var(--line); flex:0 0 auto;}
   .dot.active{background:var(--violet-deep); width:14px; border-radius:4px; transition:all .2s ease;}
+
+  /* LIGHTBOX */
+  .lightbox{
+    position:fixed; inset:0; background:rgba(12,10,20,.94); display:none;
+    align-items:center; justify-content:center; z-index:999; padding:24px; overscroll-behavior:contain;
+  }
+  .lightbox.active{display:flex;}
+  .lightbox img{
+    max-width:100%; max-height:100%; border-radius:8px; touch-action:pinch-zoom;
+    box-shadow:0 12px 40px rgba(0,0,0,.4);
+  }
+  .lightbox-close{
+    position:absolute; top:18px; right:18px; width:42px; height:42px; border-radius:50%;
+    background:rgba(255,255,255,.14); color:#fff; border:0; font-size:1.2rem; display:flex;
+    align-items:center; justify-content:center;
+  }
+  .lightbox-close:focus-visible{outline:2px solid var(--violet);}
 </style>
 </head>
 <body>
@@ -190,6 +223,7 @@
   <section id="menu" class="screen active">
     <div class="hero">
       <h1>VRUPI in Aktion</h1>
+      <p class="hero-lede">VRUPI ist ein VR-Klassenzimmer zum Training von Lehramtsstudierenden – mit KI-gesteuerten Schüler:innen-Avataren.</p>
       <p>Verfügbare Einblicke:</p>
     </div>
 
@@ -215,6 +249,10 @@
       </span>
     </button>
 
+    <div class="menu-links">
+      <a href="https://www.uni-siegen.de/ddi" target="_blank" rel="noopener" class="menu-link">🔗 Kontakt · DDI Siegen</a>
+    </div>
+
     <p class="menu-footer">VRUPI · Arbeitsgruppe Didaktik der Informatik · Universität Siegen</p>
   </section>
 
@@ -237,7 +275,7 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
       -->
-      <video controls style="width:100%; height:100%; object-fit:cover;">
+      <video controls poster="video-vorschaubild.jpg" style="width:100%; height:100%; object-fit:cover;">
         <source src="demo.webm" type="video/webm">
       </video>
     </div>
@@ -261,7 +299,7 @@
           <div class="shot">
             <img src="screenshot-startseite.png" alt="Screenshot: Startseite"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">screenshot-startseite.png fehlt noch</span>
             </div>
@@ -272,7 +310,7 @@
           <div class="shot">
             <img src="screenshot-allgemeineSettings.png" alt="Screenshot: Allgemeine Einstellungen"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">screenshot-allgemeineSettings.png fehlt noch</span>
             </div>
@@ -283,7 +321,7 @@
           <div class="shot">
             <img src="Screenshot-klassenzimmer1.png" alt="Screenshot: Klassenzimmer"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-klassenzimmer1.png fehlt noch</span>
             </div>
@@ -294,7 +332,7 @@
           <div class="shot">
             <img src="Screenshot-klassenzimmer2.png" alt="Screenshot: Klassenzimmer"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-klassenzimmer2.png fehlt noch</span>
             </div>
@@ -305,7 +343,7 @@
           <div class="shot">
             <img src="Screenshot-klassenzimmer3.png" alt="Screenshot: Klassenzimmer"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-klassenzimmer3.png fehlt noch</span>
             </div>
@@ -316,7 +354,7 @@
           <div class="shot">
             <img src="Screenshot-Unterrichtskontext1.png" alt="Screenshot: Unterrichtskontext"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-Unterrichtskontext1.png fehlt noch</span>
             </div>
@@ -327,7 +365,7 @@
           <div class="shot">
             <img src="Screenshot-Unterrichtskontext2.png" alt="Screenshot: Unterrichtskontext"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-Unterrichtskontext2.png fehlt noch</span>
             </div>
@@ -338,7 +376,7 @@
           <div class="shot">
             <img src="Screenshot-Unterrichtskontext3.png" alt="Screenshot: Unterrichtskontext"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-Unterrichtskontext3.png fehlt noch</span>
             </div>
@@ -349,7 +387,7 @@
           <div class="shot">
             <img src="Screenshot-Unterrichtskontext4.png" alt="Screenshot: Unterrichtskontext"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-Unterrichtskontext4.png fehlt noch</span>
             </div>
@@ -360,7 +398,7 @@
           <div class="shot">
             <img src="Screenshot-live.png" alt="Screenshot: Live-Ansicht"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-live.png fehlt noch</span>
             </div>
@@ -371,7 +409,7 @@
           <div class="shot">
             <img src="Screenshot-auswertung.png" alt="Screenshot: Auswertung"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-auswertung.png fehlt noch</span>
             </div>
@@ -382,7 +420,7 @@
           <div class="shot">
             <img src="Screenshot-sync-tool.png" alt="Screenshot: Sync-Tool"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div class="shot-fallback">
               <span class="placeholder-icon" aria-hidden="true">🖼️</span>
               <span class="placeholder-text">Screenshot-sync-tool.png fehlt noch</span>
             </div>
@@ -405,6 +443,11 @@
     </div>
   </section>
 
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox(); event.stopPropagation();" aria-label="Schließen">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation();">
 </div>
 
 <script>
@@ -431,6 +474,31 @@
       });
     }, {root: gallery, threshold: 0.6});
     slides.forEach(s => observer.observe(s));
+  }
+
+  // Screenshots vergrößern: Tippen öffnet das Bild groß (mit Pinch-to-Zoom auf dem Handy)
+  document.querySelectorAll('.shot').forEach(shot => {
+    const hint = document.createElement('span');
+    hint.className = 'zoom-hint';
+    hint.setAttribute('aria-hidden', 'true');
+    hint.textContent = '🔍 Antippen zum Vergrößern';
+    shot.appendChild(hint);
+    shot.addEventListener('click', () => {
+      const img = shot.querySelector('img');
+      if(!img || img.style.display === 'none') return;
+      openLightbox(img.src, img.alt);
+    });
+  });
+
+  function openLightbox(src, alt){
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lb.classList.add('active');
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
   }
 </script>
 
