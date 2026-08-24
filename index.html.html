@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VRUPI – Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --violet-deep:#5B5488;
+    --violet:#7C74AE;
+    --violet-soft:#EDEBF6;
+    --bg:#F7F6FB;
+    --ink:#1E1B2E;
+    --ink-soft:#5C5876;
+    --white:#FFFFFF;
+    --line:#E1DEEE;
+    --teal:#3E8E82;
+    --radius:18px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--ink); font-family:'Inter',-apple-system,sans-serif; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'League Spartan', sans-serif; margin:0;}
+  button{font-family:inherit; cursor:pointer;}
+  a{color:inherit;}
+
+  .app{max-width:480px; margin:0 auto; min-height:100vh; background:var(--bg); position:relative; padding-bottom:32px;}
+
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px 20px 8px;}
+  .topbar .brand{font-family:'League Spartan',sans-serif; font-weight:800; font-size:1.05rem; letter-spacing:.02em; color:var(--violet-deep);}
+  .topbar .logos{display:flex; align-items:center; gap:10px;}
+  .topbar .logos img{height:26px; width:auto; display:block;}
+
+  .back-btn{
+    display:none; align-items:center; gap:6px; background:var(--white); border:1px solid var(--line);
+    border-radius:999px; padding:8px 14px 8px 10px; font-size:.85rem; font-weight:600; color:var(--violet-deep);
+  }
+  .back-btn svg{width:16px; height:16px;}
+  .screen.active .back-btn{display:inline-flex;}
+
+  .screen{display:none; padding:8px 20px 20px;}
+  .screen.active{display:block;}
+
+  /* MENU */
+  #menu .hero{padding:18px 4px 26px;}
+  #menu .hero h1{font-size:1.7rem; font-weight:800; color:var(--violet-deep); line-height:1.15;}
+  #menu .hero p{margin:10px 0 0; color:var(--ink-soft); font-size:.95rem; line-height:1.5;}
+
+  .choice-card{
+    display:flex; align-items:center; gap:16px; width:100%; text-align:left;
+    background:var(--white); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px; margin-bottom:14px; box-shadow:0 2px 10px rgba(70,60,120,.05);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .choice-card:active{transform:scale(.98);}
+  .choice-card:focus-visible{outline:3px solid var(--violet); outline-offset:2px;}
+  .choice-icon{
+    flex:0 0 auto; width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    background:var(--violet-soft); font-size:1.5rem;
+  }
+  .choice-icon.alt{background:#E6F1EF;}
+  .choice-text h3{font-size:1.05rem; color:var(--ink); font-weight:700;}
+  .choice-text p{margin:4px 0 0; font-size:.85rem; color:var(--ink-soft); line-height:1.4;}
+  .choice-arrow{margin-left:auto; color:var(--violet); flex:0 0 auto;}
+
+  .menu-footer{margin-top:8px; padding:14px 4px 0; font-size:.78rem; color:var(--ink-soft); text-align:center;}
+
+  /* VIDEO SCREEN */
+  .video-wrap{
+    margin-top:14px; border-radius:var(--radius); overflow:hidden; background:#111; aspect-ratio:16/9;
+    display:flex; align-items:center; justify-content:center; position:relative;
+  }
+  .video-wrap iframe{width:100%; height:100%; border:0; display:block;}
+  .video-caption{margin-top:14px; font-size:.85rem; color:var(--ink-soft); line-height:1.5;}
+  .video-caption strong{color:var(--ink);}
+
+  /* MOCKUP SCREEN */
+  .disclaimer{
+    display:flex; gap:10px; align-items:flex-start; background:#FFF6E5; border:1px solid #F0DDA8;
+    border-radius:12px; padding:12px 14px; margin:14px 0; font-size:.8rem; color:#7A5B00; line-height:1.4;
+  }
+  .disclaimer svg{flex:0 0 auto; margin-top:1px;}
+
+  .tabbar{display:flex; gap:6px; background:var(--violet-soft); border-radius:14px; padding:5px; margin-bottom:16px;}
+  .tab-btn{
+    flex:1; border:0; background:transparent; padding:9px 4px; border-radius:10px; font-size:.78rem; font-weight:600;
+    color:var(--violet-deep); text-align:center;
+  }
+  .tab-btn.active{background:var(--white); box-shadow:0 1px 4px rgba(70,60,120,.15);}
+  .tab-btn:focus-visible{outline:2px solid var(--violet);}
+
+  .panel{display:none;}
+  .panel.active{display:block; animation:fade .18s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+  .card{background:var(--white); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:12px;}
+  .card h4{font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--violet-deep); font-weight:700; margin-bottom:10px;}
+
+  .field{margin-bottom:12px;}
+  .field label{display:block; font-size:.75rem; color:var(--ink-soft); margin-bottom:4px;}
+  .field .value{
+    background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:.9rem; color:var(--ink);
+  }
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+
+  .fake-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
+    background:var(--violet-deep); color:#fff; border:0; border-radius:12px; padding:13px; font-weight:700; font-size:.92rem;
+    opacity:.55;
+  }
+  .fake-btn-note{text-align:center; font-size:.72rem; color:var(--ink-soft); margin-top:8px;}
+
+  .stream-box{
+    background:#151221; border-radius:12px; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center;
+    color:#a89ce0; font-size:.8rem; margin-bottom:12px; position:relative; overflow:hidden;
+  }
+  .stream-box .live-dot{
+    position:absolute; top:10px; left:10px; display:flex; align-items:center; gap:6px; background:rgba(0,0,0,.5);
+    padding:4px 9px; border-radius:999px; font-size:.68rem; color:#fff; font-weight:600;
+  }
+  .live-dot i{width:7px; height:7px; border-radius:50%; background:#ff5c5c; display:inline-block;}
+
+  .transcript-line{display:flex; gap:8px; font-size:.82rem; padding:7px 0; border-bottom:1px solid var(--line);}
+  .transcript-line:last-child{border-bottom:0;}
+  .transcript-who{flex:0 0 78px; font-weight:700; color:var(--violet-deep);}
+  .transcript-who.student{color:var(--teal);}
+
+  .bar-row{display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:.75rem;}
+  .bar-name{flex:0 0 52px; color:var(--ink-soft);}
+  .bar-track{flex:1; background:var(--violet-soft); border-radius:6px; height:10px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--violet); border-radius:6px;}
+
+  .download-list{display:flex; flex-direction:column; gap:8px;}
+  .download-item{
+    display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line);
+    border-radius:10px; padding:10px 12px; font-size:.83rem; color:var(--ink); opacity:.6;
+  }
+
+  .sample-tag{
+    display:inline-block; background:var(--violet-soft); color:var(--violet-deep); font-size:.68rem; font-weight:700;
+    padding:3px 8px; border-radius:6px; margin-bottom:10px;
+  }
+
+  /* GALLERY */
+  .gallery-wrap{position:relative; margin-top:14px;}
+  .gallery{
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:14px; padding-bottom:4px;
+    scrollbar-width:none; -ms-overflow-style:none;
+  }
+  .gallery::-webkit-scrollbar{display:none;}
+  .slide{flex:0 0 100%; scroll-snap-align:center;}
+  .shot{
+    width:100%; aspect-ratio:16/10; border-radius:var(--radius); background:var(--white);
+    border:1.5px dashed var(--line); position:relative; overflow:hidden; color:var(--ink-soft);
+  }
+  .shot img{width:100%; height:100%; object-fit:cover; display:block;}
+  .shot .shot-fallback{
+    display:none; position:absolute; inset:0; align-items:center; justify-content:center;
+  }
+  .shot .placeholder-icon{font-size:1.8rem;}
+  .shot .placeholder-text{font-size:.78rem; text-align:center; padding:0 20px; line-height:1.4;}
+  .slide-caption{margin-top:12px; font-size:.85rem; color:var(--ink-soft); line-height:1.5;}
+  .slide-caption strong{color:var(--ink); font-family:'League Spartan',sans-serif; font-weight:700; display:block; margin-bottom:3px; font-size:.95rem;}
+
+  .gallery-nav{display:flex; align-items:center; justify-content:center; gap:18px; margin-top:14px;}
+  .nav-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--white);
+    display:flex; align-items:center; justify-content:center; color:var(--violet-deep);
+  }
+  .nav-btn:focus-visible{outline:2px solid var(--violet);}
+  .dots{display:flex; gap:5px; flex-wrap:wrap; justify-content:center; max-width:180px;}
+  .dot{width:5px; height:5px; border-radius:50%; background:var(--line); flex:0 0 auto;}
+  .dot.active{background:var(--violet-deep); width:14px; border-radius:4px; transition:all .2s ease;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <span class="brand">VRUPI</span>
+    <!-- Logo-Dateien in den gleichen Ordner wie diese HTML-Datei legen und Dateinamen unten anpassen -->
+    <div class="logos">
+      <img src="logo-turn26.png" alt="Logo TURN Konferenz 2026">
+      <img src="logo-unisiegen.png" alt="Logo Universität Siegen">
+    </div>
+  </div>
+
+  <!-- ===================== MENU ===================== -->
+  <section id="menu" class="screen active">
+    <div class="hero">
+      <h1>VRUPI in Aktion</h1>
+      <p>Verfügbare Einblicke:</p>
+    </div>
+
+    <button class="choice-card" onclick="showScreen('video')" aria-label="Demo-Video ansehen">
+      <span class="choice-icon" aria-hidden="true">🎥</span>
+      <span class="choice-text">
+        <h3>Demo-Video</h3>
+        <p>Eine simulierte Unterrichtssequenz im VR-Klassenzimmer.</p>
+      </span>
+      <span class="choice-arrow" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+
+    <button class="choice-card" onclick="showScreen('mockup')" aria-label="Screenshots der Weboberfläche ansehen">
+      <span class="choice-icon alt" aria-hidden="true">🖥️</span>
+      <span class="choice-text">
+        <h3>Weboberfläche</h3>
+        <p>Screenshots der Steuerungs- und Analyseplattform zum Durchblättern.</p>
+      </span>
+      <span class="choice-arrow" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+
+    <p class="menu-footer">VRUPI · Arbeitsgruppe Didaktik der Informatik · Universität Siegen</p>
+  </section>
+
+  <!-- ===================== VIDEO ===================== -->
+  <section id="video" class="screen">
+    <button class="back-btn" onclick="showScreen('menu')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zurück
+    </button>
+
+    <h2 style="font-size:1.2rem; margin-top:14px;">Demo-Video</h2>
+
+    <div class="video-wrap">
+      <!--
+        OPTION A – YouTube (falls du das Video zusätzlich dort hochlädst):
+        Video bei YouTube als "nicht gelistet" hochladen, dann diese Zeile einfügen
+        (DEINE_VIDEO_ID aus der YouTube-URL ersetzen):
+
+        <iframe src="https://www.youtube.com/embed/DEINE_VIDEO_ID" title="VRUPI Demo-Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+      -->
+      <video controls style="width:100%; height:100%; object-fit:cover;">
+        <source src="demo.webm" type="video/webm">
+      </video>
+    </div>
+
+    <p class="video-caption"><strong>Das Video zeigt</strong> eine Trainee-Perspektive im VR-Klassenzimmer: Interaktion mit KI-gesteuerten Schüler:innen-Avataren, gesteuert per Blick und Push-to-Talk.</p>
+  </section>
+
+  <!-- ===================== MOCKUP ===================== -->
+  <section id="mockup" class="screen">
+    <button class="back-btn" onclick="showScreen('menu')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Zurück
+    </button>
+
+    <h2 style="font-size:1.2rem; margin-top:14px;">Weboberfläche</h2>
+    <p style="font-size:.85rem; color:var(--ink-soft); margin-top:6px;">Echte Bildschirmfotos der Steuerungs- und Analyseplattform – zum Durchwischen.</p>
+
+    <div class="gallery-wrap">
+      <div class="gallery" id="gallery">
+        <div class="slide">
+          <div class="shot">
+            <img src="screenshot-startseite.png" alt="Screenshot: Startseite"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">screenshot-startseite.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>1 · Startseite</strong>Startseite der Webanwendung.</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="screenshot-allgemeineSettings.png" alt="Screenshot: Allgemeine Einstellungen"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">screenshot-allgemeineSettings.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>2 · Allgemeine Einstellungen</strong>Allgemeine Einstellungen der Sitzung.</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-klassenzimmer1.png" alt="Screenshot: Klassenzimmer"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-klassenzimmer1.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>3 · Klassenzimmer</strong>Ansicht des virtuellen Klassenzimmers (1/3).</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-klassenzimmer2.png" alt="Screenshot: Klassenzimmer"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-klassenzimmer2.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>4 · Klassenzimmer</strong>Ansicht des virtuellen Klassenzimmers (2/3).</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-klassenzimmer3.png" alt="Screenshot: Klassenzimmer"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-klassenzimmer3.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>5 · Klassenzimmer</strong>Ansicht des virtuellen Klassenzimmers (3/3).</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-Unterrichtskontext1.png" alt="Screenshot: Unterrichtskontext"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-Unterrichtskontext1.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>6 · Unterrichtskontext</strong>Konfiguration des Unterrichtskontexts (1/4).</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-Unterrichtskontext2.png" alt="Screenshot: Unterrichtskontext"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-Unterrichtskontext2.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>7 · Unterrichtskontext</strong>Konfiguration des Unterrichtskontexts (2/4).</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-Unterrichtskontext3.png" alt="Screenshot: Unterrichtskontext"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-Unterrichtskontext3.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>8 · Unterrichtskontext</strong>Konfiguration des Unterrichtskontexts (3/4).</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-Unterrichtskontext4.png" alt="Screenshot: Unterrichtskontext"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-Unterrichtskontext4.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>9 · Unterrichtskontext</strong>Konfiguration des Unterrichtskontexts (4/4).</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-live.png" alt="Screenshot: Live-Ansicht"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-live.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>10 · Live-Ansicht</strong>Video-Stream, Transkript sowie Blick- und Bewegungsdaten werden live verfolgt.</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-auswertung.png" alt="Screenshot: Auswertung"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-auswertung.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>11 · Auswertung</strong>Video-Replay, Transkript und Zusammenfassung stehen zur Reflexion bereit.</p>
+        </div>
+        <div class="slide">
+          <div class="shot">
+            <img src="Screenshot-sync-tool.png" alt="Screenshot: Sync-Tool"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="shot-fallback" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <span class="placeholder-icon" aria-hidden="true">🖼️</span>
+              <span class="placeholder-text">Screenshot-sync-tool.png fehlt noch</span>
+            </div>
+          </div>
+          <p class="slide-caption"><strong>12 · Sync-Tool</strong>Synchronisiert Videoaufzeichnungen wieder mit dem Gesprächstranskript.</p>
+        </div>
+      </div>
+
+      <div class="gallery-nav">
+        <button class="nav-btn" onclick="scrollGallery(-1)" aria-label="Vorheriger Screenshot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dots" id="dots">
+          <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+        <button class="nav-btn" onclick="scrollGallery(1)" aria-label="Nächster Screenshot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  const gallery = document.getElementById('gallery');
+  const dots = document.querySelectorAll('#dots .dot');
+
+  function scrollGallery(dir){
+    gallery.scrollBy({left: dir * gallery.clientWidth, behavior:'smooth'});
+  }
+
+  if(gallery){
+    const slides = gallery.querySelectorAll('.slide');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const idx = Array.from(slides).indexOf(entry.target);
+          dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+        }
+      });
+    }, {root: gallery, threshold: 0.6});
+    slides.forEach(s => observer.observe(s));
+  }
+</script>
+
+</body>
+</html>
